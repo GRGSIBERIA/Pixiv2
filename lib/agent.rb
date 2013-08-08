@@ -1,5 +1,7 @@
 require 'mechanize'
 
+class LoginFailedError < StandardError; end
+
 class Agent
   def initialize(user_id, passwd)
     @agent = Login(Mechanize.new, user_id, passwd)
@@ -11,7 +13,7 @@ class Agent
     next_page = ClickLogin(page, id, pass)
 
     if CheckLoginFailer(next_page)
-      raise LoginError
+      raise LoginFailedError, user_id
     end
 
     return ag
