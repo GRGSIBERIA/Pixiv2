@@ -6,11 +6,15 @@ class PixivAgent
     @agent = Login.Login(user_id, passwd)
   end
 
-  def find_by_tag(keywords, options)
-
+  def find_by_tag(keywords, full=true, options={})
+    if full then
+      Find.MakeURL(agent, "s_tag_full", keywords, options)
+    else
+      Find.MakeURL(agent, "s_tag", keywords, options)
+    end
   end
 
-  def find_by_keyword(keywords, options)
-
+  def find_by_keyword(keywords, options={})
+    Find.MakeURL(agent, "s_tc", keywords, options)
   end
 end

@@ -1,13 +1,9 @@
-class Find < Action
+class Find < Request
   @@search = "search.php"
 
   #s_tag, s_tag_full, s_tc
 
-  def self.Tag(agent, keywords, options)
-    word = Find.MakeKeyword(keywords)
-  end
-
-  def self.Find(agent, type, keywords, options={})
+  def self.MakeURL(agent, type, keywords, options={})
     if keywords.class == Array then
       options[:word] = keywords.join(" ")
     elsif keywords.class == String then
@@ -17,7 +13,7 @@ class Find < Action
     end
     options[:s_mode] = type
     params = Find.MakeParameter(options)
-    @@url + params
+    @@url + "?" + params
   end
 
   private
