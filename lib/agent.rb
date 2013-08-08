@@ -13,7 +13,7 @@ class Agent
     next_page = ClickLogin(page, id, pass)
 
     if CheckLoginFailer(next_page)
-      raise LoginFailedError, user_id
+      raise LoginFailedError, "#{user_id} or password not found."
     end
 
     return ag
