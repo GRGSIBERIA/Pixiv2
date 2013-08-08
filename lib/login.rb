@@ -6,13 +6,14 @@ class Login
     ag.user_agent_alias = "Windows Mozilla"
 
     page = ag.get('https://www.secure.pixiv.net/login.php')
-    next_page = ClickLogin(page, id, pass)
+    next_page = Login.ClickLogin(page, id, pass)
 
-    CheckLoginFailer(next_page, id)
+    Login.CheckLoginFailer(next_page, id)
 
     return ag
   end
 
+  private
   def self.ClickLogin(page, id, pass)
     page.form_with(:class => "login-form") do |form|
       form.pixiv_id = id
@@ -20,6 +21,7 @@ class Login
     end.submit
   end
 
+  private
   def self.CheckLoginFailer(next_page, id)
     if next_page.uri.to_s != "http://www.pixiv.net/mypage.php" then
       raise Pixiv2::LoginFailedError, "#{id} or password not found."
