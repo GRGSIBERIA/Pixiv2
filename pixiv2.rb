@@ -1,9 +1,6 @@
 require "openssl"
 
-def DisableCertificate
-  OpenSSL::SSL.module_eval{ remove_const(:VERIFY_PEER) }
-  OpenSSL::SSL.const_set( :VERIFY_PEER, OpenSSL::SSL::VERIFY_NONE )
-  puts "Warning: Certificate has not been issued. Don't worry :)"
-end
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+I_KNOW_THAT_OPENSSL_VERIFY_PEER_EQUALS_VERIFY_NONE_IS_WRONG = nil
 
-DisableCertificate
+require "./lib/agent.rb"

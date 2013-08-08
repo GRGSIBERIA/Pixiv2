@@ -1,3 +1,4 @@
+#-*- encoding: utf-8
 require 'mechanize'
 
 class LoginFailedError < StandardError; end
@@ -12,16 +13,16 @@ class Agent
     next_page = ClickLogin(page, id, pass)
 
     if CheckLoginFailer(next_page)
-      raise LoginFailedError, "#{user_id} or password not found."
+      raise LoginFailedError, "#{id} or password not found."
     end
 
     return ag
   end
 
   def ClickLogin(page, id, pass)
-    page.form_with(:class => "login_form") do |form|
-      form.login_pixiv_id = id
-      form.login_password = pass
+    page.form_with(:class => "login-form") do |form|
+      form.pixiv_id = id
+      form.pass = pass
     end.submit
   end
 
