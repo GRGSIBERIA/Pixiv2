@@ -1,4 +1,5 @@
 require "./lib/request.rb"
+require "./lib/error.rb"
 
 class Find < Request
   @@search = "search.php"
@@ -25,14 +26,14 @@ class Find < Request
     params = []
 
     for i in 0..opt_array.length-1
-      params << opt_array[i][0].to_s + "=" + opt_array[i][1]
+      params << opt_array[i][0].to_s + "=" + opt_array[i][1].to_s
     end
     params.join("&")
   end
 
   private
   def self.CheckSymbolOptions(options)
-    const_opt = [:r18, :s_mode, :word, :tool, :ratio, :hgt, :wgt, :scd, :order, :s_mode]
+    const_opt = [:r18, :s_mode, :word, :tool, :ratio, :hgt, :wgt, :scd, :order, :s_mode, :p]
     options.each{|opt, val|
       index = const_opt.index(opt)
       if index == nil then
