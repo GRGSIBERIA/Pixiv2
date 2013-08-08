@@ -10,8 +10,8 @@ class Agent
     page = ag.get('https://www.secure.pixiv.net/login.php')
     next_page = ClickLogin(page, id, pass)
 
-    if CheckLoginFailer
-
+    if CheckLoginFailer(next_page)
+      raise LoginError
     end
 
     return ag
@@ -25,6 +25,6 @@ class Agent
   end
 
   def CheckLoginFailer(next_page)
-
+    next_page.at("title").inner_text != "[pixiv] ログイン"
   end
 end
