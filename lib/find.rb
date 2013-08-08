@@ -1,9 +1,11 @@
+require "./lib/request.rb"
+
 class Find < Request
   @@search = "search.php"
 
   #s_tag, s_tag_full, s_tc
 
-  def self.MakeURL(agent, type, keywords, options={})
+  def self.MakeURL(type, keywords, options={})
     if keywords.class == Array then
       options[:word] = keywords.join(" ")
     elsif keywords.class == String then
@@ -13,7 +15,7 @@ class Find < Request
     end
     options[:s_mode] = type
     params = Find.MakeParameter(options)
-    @@url + "?" + params
+    @@url + @@search + "?" + params
   end
 
   private
@@ -31,12 +33,10 @@ class Find < Request
   private
   def self.CheckSymbolOptions(options)
     const_opt = [:r18, :s_mode, :word, :tool, :ratio, :hgt, :wgt, :scd, :order, :s_mode]
-    retval = []
     options.each{|opt, val|
-      if const_opt.index(opt) == nil then
+      index = const_opt.index(opt)
+      if index == nil then
         raise Pixiv2::OptionNotFoundError, "not fond #{opt.to_s}"
-      else
-        retval << {opt, val}
       end
     }
   end
