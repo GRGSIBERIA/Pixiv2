@@ -1,9 +1,5 @@
 #-*- encoding: utf-8
-require 'mechanize'
-
-class LoginFailedError < StandardError; end
-
-class Agent
+class PixivAgent
   def initialize(user_id, passwd)
     @agent = Login(user_id, passwd)
   end
@@ -29,7 +25,7 @@ class Agent
 
   def CheckLoginFailer(next_page, id)
     if next_page.uri.to_s != "http://www.pixiv.net/mypage.php" then
-      raise LoginFailedError, "#{id} or password not found."
+      raise Pixiv2::LoginFailedError, "#{id} or password not found."
     end
   end
 end

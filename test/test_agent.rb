@@ -1,3 +1,4 @@
+require "./lib/error.rb"
 
 class TC_Agent < Test::Unit::TestCase
   def setup
@@ -7,12 +8,13 @@ class TC_Agent < Test::Unit::TestCase
   end
 
   def test_login
-    Agent.new(@data[0], @data[1])
+    PixivAgent.new(@data[0], @data[1])
   end
 
   def test_login_faild
-    assert_raise(LoginFaildError) {
-      Agent.new("testhoge", "hohehoheuhoeusantoeh")
+    assert_raise(Pixiv2::LoginFailedError, "failed assert_raise") {
+      PixivAgent.new("testhoge", "hohehoheuhoeusantoeh")
     }
+    
   end
 end
