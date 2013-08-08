@@ -5,16 +5,17 @@ class LoginFailedError < StandardError; end
 
 class Agent
   def initialize(user_id, passwd)
-    @agent = Login(Mechanize.new, user_id, passwd)
+    @agent = Login(user_id, passwd)
   end
 
-  def Login(ag, id, pass)
+  def Login(id, pass)
+    ag = Mechanize.new
+    ag.user_agent_alias = "Windows Mozilla"
+
     page = ag.get('https://www.secure.pixiv.net/login.php')
     next_page = ClickLogin(page, id, pass)
 
-    if CheckLoginFailer(next_page)
-      raise LoginFailedError, "#{id} or password not found."
-    end
+    CheckLoginFailer(next_page, id)
 
     return ag
   end
@@ -26,7 +27,9 @@ class Agent
     end.submit
   end
 
-  def CheckLoginFailer(next_page)
-    next_page.at("title").inner_text != "[pixiv] ログイン"
+  def CheckLoginFailer(next_page, id)
+    if next_page.uri.to_s != "http://www.pixiv.net/mypage.php" then
+      raise LoginFailedError, "#{id} or password not found."
+    end
   end
 end
