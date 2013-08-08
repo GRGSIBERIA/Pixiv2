@@ -6,17 +6,11 @@ class PixivAgent
     @agent = Login.Login(user_id, passwd)
   end
 
-  def find(type, keywords)
-    case type
-    when :tag
-    when :keyword
-    end
+  def find_by_tag(keywords, options)
+
   end
 
-  def get(type, id)
-    case type
-    when :picture
-    when :author
-    end
+  def find_by_keyword(keywords, options)
+
   end
 end

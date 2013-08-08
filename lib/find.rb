@@ -1,11 +1,23 @@
 class Find < Action
+  @@search = "search.php"
+
+  #s_tag, s_tag_full, s_tc
+
   def self.Tag(agent, keywords, options)
     word = Find.MakeKeyword(keywords)
   end
 
-  def self.Keyword(agent, keywords, options={})
-    options[:word] = keywords.join(" ")
+  def self.Find(agent, type, keywords, options={})
+    if keywords.class == Array then
+      options[:word] = keywords.join(" ")
+    elsif keywords.class == String then
+      options[:word] = keywords
+    else
+      raise ArgumentError, "invalid argument: keywords => #{keywords}"
+    end
+    options[:s_mode] = type
     params = Find.MakeParameter(options)
+    @@url + params
   end
 
   private
@@ -22,7 +34,7 @@ class Find < Action
 
   private
   def self.CheckSymbolOptions(options)
-    const_opt = [:word, :tool, :ratio, :hgt, :wgt, :scd, :order, :s_mode]
+    const_opt = [:r18, :s_mode, :word, :tool, :ratio, :hgt, :wgt, :scd, :order, :s_mode]
     retval = []
     options.each{|opt, val|
       if const_opt.index(opt) == nil then
