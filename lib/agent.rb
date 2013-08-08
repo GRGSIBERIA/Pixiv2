@@ -5,7 +5,6 @@ class LoginFailedError < StandardError; end
 class Agent
   def initialize(user_id, passwd)
     @agent = Login(Mechanize.new, user_id, passwd)
-
   end
 
   def Login(ag, id, pass)
